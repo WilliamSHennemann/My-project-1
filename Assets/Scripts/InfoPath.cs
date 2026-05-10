@@ -1,8 +1,8 @@
-
 using TMPro;
 using UnityEngine;
 
-public class PathInfo : MonoBehaviour
+public class InfoPath : MonoBehaviour
+
 {
 	// The name of the sprite associated with this object
 	public string spriteName;

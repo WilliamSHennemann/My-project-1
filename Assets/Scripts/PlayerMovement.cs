@@ -1,33 +1,34 @@
 
 using TMPro;
 using UnityEngine;
+using System.Linq;
 
 public class PlayerMovement : MonoBehaviour
 {
     // Store all sprite objects in the scene
     private GameObject[] spriteObjects;
 
-    // Reference to PathInfo (assign in Inspector)
-    public PathInfo pathInfo;
+    // Reference to InfoPath (assign in Inspector)
+    public InfoPath InfoPath;
 
     void Start()
     {
-        // Find all GameObjects with a SpriteRenderer
-        spriteObjects = GameObject.FindObjectsOfType<SpriteRenderer>()
+        // Find all GameObjects with a SpriteRenderer (using latest non-obsolete API)
+        spriteObjects = GameObject.FindObjectsByType<SpriteRenderer>()
             .Select(sr => sr.gameObject).ToArray();
     }
 
     // Call this from a UI Button or TMP_InputField OnEndEdit event
     public void MovePlayerToInputSprite()
     {
-        if (pathInfo != null)
+        if (InfoPath != null)
         {
-            string targetName = pathInfo.inputField != null ? pathInfo.inputField.text : pathInfo.spriteName;
+            string targetName = InfoPath.inputField != null ? InfoPath.inputField.text : InfoPath.spriteName;
             MoveToSpriteByName(targetName);
         }
         else
         {
-            Debug.LogWarning("PathInfo reference not set in PlayerMovement.");
+            Debug.LogWarning("InfoPath reference not set in PlayerMovement.");
         }
     }
 
