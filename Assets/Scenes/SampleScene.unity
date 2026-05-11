@@ -185,8 +185,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -287,11 +287,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 3e8d641dca865ec4d94b2cd65f6c9a11, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.09
+      value: 3.14
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 3e8d641dca865ec4d94b2cd65f6c9a11, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.93
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 3e8d641dca865ec4d94b2cd65f6c9a11, type: 3}
       propertyPath: m_LocalPosition.z
@@ -599,7 +599,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraSearch
   searchField: {fileID: 1803064789}
   smoothSpeed: 0.1
-  offset: {x: 0, y: 0, z: -10}
+  cameraOffset: {x: 0, y: 0, z: -10}
+  ajusteSubida: 0.5
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1100,7 +1101,7 @@ MonoBehaviour:
       m_Calls: []
   m_CaretColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_CustomCaretColor: 0
-  m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
+  m_SelectionColor: {r: 1, g: 1, b: 1, a: 0.7529412}
   m_Text: 
   m_CaretBlinkRate: 0.85
   m_CaretWidth: 1
@@ -1129,7 +1130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.19607843, g: 0.05490196, b: 0.15686275, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1232,7 +1233,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter text...
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1328,6 +1329,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3626916397498700004, guid: efec6dfb474a7be488a48a7604ccf780, type: 3}
+      propertyPath: m_SpriteSortPoint
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: efec6dfb474a7be488a48a7604ccf780, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -1338,11 +1343,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: efec6dfb474a7be488a48a7604ccf780, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.34
+      value: -0.03
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: efec6dfb474a7be488a48a7604ccf780, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.77
+      value: 2.01
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: efec6dfb474a7be488a48a7604ccf780, type: 3}
       propertyPath: m_LocalPosition.z
