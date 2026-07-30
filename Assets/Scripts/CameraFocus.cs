@@ -5,7 +5,7 @@ public class CameraFocus : MonoBehaviour
 {
     [Header("Movimento da Câmera")]
     public float smoothSpeed = 5f;
-    public float ajusteSubida = 1.5f;
+    public float ajusteSubida = 0f;
 
     private Vector3 targetPosition;
     private bool isMoving = false;
