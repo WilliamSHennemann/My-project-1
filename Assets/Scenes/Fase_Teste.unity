@@ -311,12 +311,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 123134497}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5333fe7ed8c9f2d4b996732a84b467e8, type: 3}
+  m_Script: {fileID: 11500000, guid: b02b94d862e35d242bd01cf38b9a5fe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CommandInterpreter
-  commandInput: {fileID: 1803064789}
-  targetObject: {fileID: 0}
-  cameraSpeed: 2
+  nomeDoInputField: InputField (TMP)
+  alvos:
+  - comando: hack folder
+    objeto: {fileID: -2253911629886400664, guid: caef1737512db224fac336dfa8fa1a72, type: 3}
+    contextoNecessario: conceito
 --- !u!4 &270606277 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7878350319992209165, guid: 3e8d641dca865ec4d94b2cd65f6c9a11, type: 3}
@@ -655,13 +657,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2dcfbe5f92d4230458277a31c4e8d289, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d34ef0b17590c64f9ab817726343ca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraSearch
-  searchField: {fileID: 1803064789}
-  smoothSpeed: 0.1
-  cameraOffset: {x: 0, y: 0, z: -10}
-  ajusteSubida: 0.5
+  smoothSpeed: 5
+  ajusteSubida: 1.5
 --- !u!114 &519420035
 MonoBehaviour:
   m_ObjectHideFlags: 0
