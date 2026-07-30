@@ -661,7 +661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraSearch
   smoothSpeed: 5
-  ajusteSubida: 1.5
+  ajusteSubida: 0
 --- !u!114 &519420035
 MonoBehaviour:
   m_ObjectHideFlags: 0
