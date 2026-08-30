@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuManager : MonoBehaviour
 {
- [SerializeField] private string nomeDaCenaParaCarregar = "Fase_Teste";
+ [SerializeField] private string nomeDaCenaParaCarregar = "Tutorial";
     
     [SerializeField] private bool isExitButton = false;
 
