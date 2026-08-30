@@ -20,6 +20,12 @@ public class HackTerminal : MonoBehaviour
 
         [Tooltip("OPCIONAL: nome de outro comando que precisa ter sido o ÚLTIMO digitado antes deste funcionar.")]
         public string contextoNecessario;
+
+         [Tooltip("OPCIONAL: valor exato exigido (ex: '1', '0', 'root', '5'). Deixe vazio para aceitar qualquer valor digitado.")]
+        public string valorEsperado = "1";
+
+        [Tooltip("Se marcado, a câmera foca no objeto ao ativar. Desmarque para comandos 'invisíveis' (flags) que não devem mover a câmera.")]
+        public bool moverCamera = true;
     }
 
     [Header("Nome exato do Input Field na cena")]
@@ -31,7 +37,7 @@ public class HackTerminal : MonoBehaviour
 
     private TMP_InputField commandInput;
     private CameraFocus cameraFocus;
-    private string contextoAtual = "";
+    private HashSet<string> comandosAtivos = new HashSet<string>(System.StringComparer.OrdinalIgnoreCase);
 
     void OnEnable()
     {
@@ -132,57 +138,72 @@ public class HackTerminal : MonoBehaviour
         }
 
         string nomeComando = parts[0].Trim();
-        string valorStr = parts[1].Trim();
+        string valorStr = parts[1].Trim().Trim('"'); // aceita "root" ou root, tanto faz
 
-        if (!int.TryParse(valorStr, out int valor) || (valor != 0 && valor != 1))
+         AlvoHackeavel alvo = alvos.Find(a =>
+        !string.IsNullOrEmpty(a.comando) &&
+        a.comando.Trim().Equals(nomeComando, System.StringComparison.OrdinalIgnoreCase));
+
+    if (alvo != null && !string.IsNullOrEmpty(alvo.contextoNecessario))
+{
+    string[] requisitos = alvo.contextoNecessario.Split(',');
+    foreach (string req in requisitos)
+    {
+        string requisito = req.Trim();
+        if (string.IsNullOrEmpty(requisito)) continue;
+
+        if (!comandosAtivos.Contains(requisito))
         {
-            Debug.LogWarning("O valor deve ser 0 ou 1.");
+            Debug.LogWarning($"Você precisa ativar '{requisito}' antes de usar '{nomeComando}'.");
             LimparCampo();
             return;
         }
-
-        bool estado = valor == 1;
-
-        AlvoHackeavel alvo = alvos.Find(a =>
-            !string.IsNullOrEmpty(a.comando) &&
-            a.comando.Trim().Equals(nomeComando, System.StringComparison.OrdinalIgnoreCase));
-
-        if (alvo != null && !string.IsNullOrEmpty(alvo.contextoNecessario))
-        {
-            if (!contextoAtual.Equals(alvo.contextoNecessario, System.StringComparison.OrdinalIgnoreCase))
-            {
-                Debug.LogWarning($"Você precisa estar em '{alvo.contextoNecessario}' antes de usar '{nomeComando}'.");
-                LimparCampo();
-                return;
-            }
-        }
-
-        GameObject objetoAlvo = (alvo != null) ? alvo.objeto : null;
-
-        if (objetoAlvo == null)
-        {
-            objetoAlvo = GameObject.Find(nomeComando);
-        }
-
-        if (objetoAlvo == null)
-        {
-            Debug.LogWarning($"NÃO ACHEI o objeto: {nomeComando}");
-            LimparCampo();
-            return;
-        }
-
-        objetoAlvo.SetActive(estado);
-        Debug.Log($"'{nomeComando}' foi {(estado ? "ativado" : "desativado")}.");
-
-        contextoAtual = estado ? nomeComando : "";
-
-        if (estado && cameraFocus != null)
-        {
-            cameraFocus.Focar(objetoAlvo);
-        }
-
-        LimparCampo();
     }
+}
+
+    // Se o alvo exige um valor específico, confere se bateu
+    if (alvo != null && !string.IsNullOrEmpty(alvo.valorEsperado))
+    {
+        if (!valorStr.Equals(alvo.valorEsperado, System.StringComparison.OrdinalIgnoreCase))
+        {
+            Debug.LogWarning($"Valor incorreto para '{nomeComando}'. Esperado algo diferente.");
+            LimparCampo();
+            return;
+        }
+    }
+
+    // Continua tratando "0" como desativar, qualquer outra coisa como ativar
+    bool estado = valorStr != "0";
+
+    GameObject objetoAlvo = (alvo != null) ? alvo.objeto : null;
+
+    if (objetoAlvo == null)
+    {
+        objetoAlvo = GameObject.Find(nomeComando);
+    }
+
+    if (objetoAlvo == null)
+    {
+        Debug.LogWarning($"NÃO ACHEI o objeto: {nomeComando}");
+        LimparCampo();
+        return;
+    }
+
+    objetoAlvo.SetActive(estado);
+    Debug.Log($"'{nomeComando}' foi {(estado ? "ativado" : "desativado")}.");
+
+    if (estado)
+    comandosAtivos.Add(nomeComando);
+    else
+    comandosAtivos.Remove(nomeComando);
+
+    if (estado && cameraFocus != null && (alvo == null || alvo.moverCamera))
+    {
+    cameraFocus.Focar(objetoAlvo);
+    }
+
+    LimparCampo();
+}
 
     void LimparCampo()
     {

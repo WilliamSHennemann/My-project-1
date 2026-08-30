@@ -1653,7 +1653,7 @@ MonoBehaviour:
   - "Bom Dia. Eu gostaria de conversar com voc\xEA"
   atrasoInicial: 4.91
   atrasoPorCaractere: 0.03
-  Radio: {fileID: 0}
+  Radio: {fileID: 229675532}
 --- !u!1 &1050505900
 GameObject:
   m_ObjectHideFlags: 0
