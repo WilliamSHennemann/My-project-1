@@ -10,6 +10,8 @@ public class DialogueBox : MonoBehaviour
     [SerializeField] private float atrasoInicial = 5f;
     [SerializeField] private float atrasoPorCaractere = 0.03f;
 
+    [SerializeField] private AnimationR Radio; // referência ao script de animação do mentor
+
     private int linhaAtual = 0;
 
     private void Start()
@@ -22,6 +24,7 @@ public class DialogueBox : MonoBehaviour
     {
         yield return new WaitForSeconds(atrasoInicial);
         caixaDeTexto.SetActive(true);
+        Radio.ComecarLoop(); // dispara a animação aqui
         yield return StartCoroutine(DigitarLinha(linhas[linhaAtual]));
     }
 
