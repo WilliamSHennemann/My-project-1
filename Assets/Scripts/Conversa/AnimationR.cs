@@ -13,9 +13,25 @@ public class AnimationR : MonoBehaviour
         Radio.sprite = frames[0]; // fica parado no frame 1 até ser chamado
     }
 
+    private Coroutine loopAtual;
+
     public void ComecarLoop()
     {
-        StartCoroutine(LoopPingPong());
+        if (loopAtual != null)
+            StopCoroutine(loopAtual);
+
+        loopAtual = StartCoroutine(LoopPingPong());
+    }
+
+    public void PararLoop()
+    {
+        if (loopAtual != null)
+        {
+            StopCoroutine(loopAtual);
+            loopAtual = null;
+        }
+
+        Radio.sprite = frames[0]; // volta pro frame parado
     }
 
     private IEnumerator LoopPingPong()

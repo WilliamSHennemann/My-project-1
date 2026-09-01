@@ -15,8 +15,8 @@ public class HackTerminal : MonoBehaviour
         [Tooltip("O nome que o jogador vai digitar no terminal (ex: 'Hack Folder', 'StartButton')")]
         public string comando;
 
-        [Tooltip("O GameObject do sprite/popup que vai aparecer/desaparecer. Pode começar DESATIVADO no Inspector.")]
-        public GameObject objeto;
+        [Tooltip("Os GameObjects (sprite/popup/trigger de diálogo etc.) que vão aparecer/desaparecer juntos. Podem começar DESATIVADOS no Inspector.")]
+        public List<GameObject> objetos = new List<GameObject>();
 
         [Tooltip("OPCIONAL: nome de outro comando que precisa ter sido o ÚLTIMO digitado antes deste funcionar.")]
         public string contextoNecessario;
@@ -114,7 +114,7 @@ public class HackTerminal : MonoBehaviour
             alvos.Add(new AlvoHackeavel
             {
                 comando = "Hack Folder",
-                objeto = startButton,
+                objetos = new List<GameObject> { startButton },
                 contextoNecessario = "conceito"
             });
             Debug.Log("HackTerminal: 'Hack Folder' configurado automaticamente para abrir StartButton.");
@@ -175,31 +175,45 @@ public class HackTerminal : MonoBehaviour
     // Continua tratando "0" como desativar, qualquer outra coisa como ativar
     bool estado = valorStr != "0";
 
-    GameObject objetoAlvo = (alvo != null) ? alvo.objeto : null;
+    List<GameObject> objetosAlvo = (alvo != null && alvo.objetos != null && alvo.objetos.Count > 0)
+        ? alvo.objetos
+        : null;
 
-    if (objetoAlvo == null)
+    if (objetosAlvo == null)
     {
-        objetoAlvo = GameObject.Find(nomeComando);
+        GameObject encontrado = GameObject.Find(nomeComando);
+        if (encontrado != null)
+            objetosAlvo = new List<GameObject> { encontrado };
     }
 
-    if (objetoAlvo == null)
+    if (objetosAlvo == null || objetosAlvo.Count == 0)
     {
-        Debug.LogWarning($"NÃO ACHEI o objeto: {nomeComando}");
+        Debug.LogWarning($"NÃO ACHEI nenhum objeto para o comando: {nomeComando}");
         LimparCampo();
         return;
     }
 
-    objetoAlvo.SetActive(estado);
-    Debug.Log($"'{nomeComando}' foi {(estado ? "ativado" : "desativado")}.");
+    GameObject primeiroValido = null;
+
+    foreach (GameObject obj in objetosAlvo)
+    {
+        if (obj == null) continue;
+
+        obj.SetActive(estado);
+        Debug.Log($"'{obj.name}' foi {(estado ? "ativado" : "desativado")} pelo comando '{nomeComando}'.");
+
+        if (primeiroValido == null)
+            primeiroValido = obj;
+    }
 
     if (estado)
-    comandosAtivos.Add(nomeComando);
+        comandosAtivos.Add(nomeComando);
     else
-    comandosAtivos.Remove(nomeComando);
+        comandosAtivos.Remove(nomeComando);
 
-    if (estado && cameraFocus != null && (alvo == null || alvo.moverCamera))
+    if (estado && cameraFocus != null && (alvo == null || alvo.moverCamera) && primeiroValido != null)
     {
-    cameraFocus.Focar(objetoAlvo);
+        cameraFocus.Focar(primeiroValido);
     }
 
     LimparCampo();
@@ -211,4 +225,4 @@ public class HackTerminal : MonoBehaviour
         commandInput.text = "";
         commandInput.ActivateInputField();
     }
-}   
+}
